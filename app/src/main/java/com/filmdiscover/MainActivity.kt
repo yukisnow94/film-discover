@@ -18,8 +18,11 @@ import com.filmdiscover.ui.theme.FilmDiscoverTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.filmdiscover.data.Film
 import com.filmdiscover.data.service
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +35,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        val searchList = service.discoverList()
-        Log.d("main activtiy", searchList.toString())
+
+        lifecycleScope.launchWhenResumed {
+            try {
+                val searchList = service.discoverList()
+                Log.d("main activtiy", searchList.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
 

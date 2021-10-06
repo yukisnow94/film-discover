@@ -2,6 +2,8 @@ package com.filmdiscover.data
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
@@ -10,8 +12,8 @@ val API_KEY = "f1c1fa32aa618e6adc168c3cc3cc6c46"
 val LANG = "ru-RU"
 
 interface FilmService {
-    @GET("/discover/movie")
-    fun discoverList(
+    @GET("discover/movie")
+    suspend fun discoverList(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") lang: String = LANG
     ): TMDbResponse<Film>
@@ -60,7 +62,7 @@ val moshi = Moshi.Builder()
     .build()
 
 var retrofit = Retrofit.Builder()
-    .baseUrl("https://https://api.themoviedb.org/3/")
+    .baseUrl("https://api.themoviedb.org/3/")
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
